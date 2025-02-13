@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-dep
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: server
+  template:
+    metadata:
+      labels:
+        role: server
+    spec:
+      containers:
+        - image: akhonya/dwk:v0.1
+          name: server
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "3000"
