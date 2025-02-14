@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dummy-server-dep
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      stage: "v0.3"
+  template:
+    metadata:
+      labels:
+        stage: "v0.3"
+    spec:
+      containers:
+        - image: akhonya/dwk:v0.1
+          name: mirror
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PORT
+              value: "3000"
+          # resources:
+          #   requests:
+          #     cpu: "20m"
+          #     memory: "55M"
+          #   limits:
+          #     cpu: "20m"
+          #     memory: "55M"
