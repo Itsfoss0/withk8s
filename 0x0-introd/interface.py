@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 
-""" 
-Data Provider interface to inject dependecy 
-to the RequestHandler class 
+"""
+Data Provider interface to inject dependecy
+to the RequestHandler class
 """
 
 

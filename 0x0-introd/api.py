@@ -8,6 +8,7 @@ Minimal API for testing purposes
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from urllib.parse import parse_qs, urlparse
+from datetime import datetime, timezone
 import json
 
 
@@ -32,7 +33,9 @@ class API:
                 parsed_path = urlparse(self.path)
                 if parsed_path.path == "/status":
                     secret = data_provider.get_secret()
-                    self.send_json_response({"secret": secret, "status": "OK"})
+                    time = str(datetime.now(timezone.utc))
+                    self.send_json_response(
+                        {"secret": secret, "status": "OK", "time": time})
 
         return RequestHandler
 
