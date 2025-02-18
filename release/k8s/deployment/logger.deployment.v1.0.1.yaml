@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logger
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: logging
+  template:
+    metadata:
+      labels:
+        role: logging
+    spec:
+      containers:
+        - name: logger
+          image: akhonya/logger:v1.0.1
