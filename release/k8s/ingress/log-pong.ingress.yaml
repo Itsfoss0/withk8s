@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: logger-pong
+spec:
+  ingressClassName: traefik
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: "/pingpong"
+            backend:
+              service:
+                name: logger-pong-svc
+                port:
+                  number: 5000
+
+          - pathType: Prefix
+            path: "/status"
+            backend:
+              service:
+                name: logger-pong-svc
+                port:
+                  number: 3000

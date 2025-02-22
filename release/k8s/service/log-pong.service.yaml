@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: logger-pong-service
+spec:
+  selector:
+    app: logger-pong
+  ports:
+    - name: ping-port
+      port: 5000
+      targetPort: 5000
+    - name: logger-port
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP

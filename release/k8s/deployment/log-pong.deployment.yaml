@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logger-pong-dep
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logger-pong
+  template:
+    metadata:
+      labels:
+        app: logger-pong
+    spec:
+      volumes:
+        - name: logs-store
+          persistentVolumeClaim:
+            claimName: logger-pvc
+
+      containers:
+        - name: pingpong
+          image: akhonya/pingpong:v1.1.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 5000
+          env:
+            - name: "PORT"
+              value: "5000"
+          volumeMounts:
+            - name: logs-store
+              mountPath: /var/log
+
+        - name: logger
+          image: akhonya/logger:v1.2.2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3000
+          volumeMounts:
+            - name: logs-store
+              mountPath: /var/log
