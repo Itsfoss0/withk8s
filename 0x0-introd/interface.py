@@ -13,3 +13,10 @@ class DataProvider:
 
     def get_secret(self):
         return self.secret
+
+    def get_pings(self):
+        pongs = ""
+        with open("/var/log/pingpong.log") as pong:
+            data = pong.readline()
+            pongs = data
+        return pongs

@@ -33,9 +33,10 @@ class API:
                 parsed_path = urlparse(self.path)
                 if parsed_path.path == "/status":
                     secret = data_provider.get_secret()
+                    pings = data_provider.get_pings()
                     time = str(datetime.now(timezone.utc))
                     self.send_json_response(
-                        {"secret": secret, "status": "OK", "time": time})
+                        {"secret": secret, "status": "OK", "time": time, "pings": pings})
 
         return RequestHandler
 
