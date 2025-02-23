@@ -6,6 +6,12 @@ Data Provider interface to inject dependecy
 to the RequestHandler class
 """
 
+import os
+import urllib.request
+import json
+
+PINGS_URL = os.getenv("PINGS_URL")
+
 
 class DataProvider:
     def __init__(self, secret):
@@ -16,7 +22,8 @@ class DataProvider:
 
     def get_pings(self):
         pongs = ""
-        with open("/var/log/pingpong.log") as pong:
-            data = pong.readline()
-            pongs = data
+        with urllib.request.urlopen(PINGS_URL) as pong:
+            data = pong.read().decode("utf-8")
+            cleaned_data = json.loads(data)
+            pongs = cleaned_data.get("message", "")
         return pongs

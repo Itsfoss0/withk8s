@@ -36,13 +36,14 @@ class API:
                     pings = data_provider.get_pings()
                     time = str(datetime.now(timezone.utc))
                     self.send_json_response(
-                        {"secret": secret, "status": "OK", "time": time, "pings": pings})
+                        {"secret": secret, "status": "OK", "time": time,
+                            "pings": pings})
 
         return RequestHandler
 
 
 def run_server(handler_class, port=3000):
-    server_address = ("", port)
+    server_address = ("0.0.0.0", port)
     httpd = HTTPServer(server_address, handler_class)
     print(f"Server Listening on port {port}")
     httpd.serve_forever()
