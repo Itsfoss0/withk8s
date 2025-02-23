@@ -12,4 +12,3 @@ spec:
     - name: logger-port
       port: 3000
       targetPort: 3000
-  type: ClusterIP

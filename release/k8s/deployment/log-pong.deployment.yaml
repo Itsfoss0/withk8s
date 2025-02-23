@@ -20,10 +20,10 @@ spec:
 
       containers:
         - name: pingpong
-          image: akhonya/pingpong:v1.1.0
+          image: akhonya/pingpong:v1.1.1
           imagePullPolicy: IfNotPresent
           ports:
-            - name: http
+            - name: http-ping
               containerPort: 5000
           env:
             - name: "PORT"
@@ -33,10 +33,10 @@ spec:
               mountPath: /var/log
 
         - name: logger
-          image: akhonya/logger:v1.2.2
+          image: akhonya/logger:v1.2.3
           imagePullPolicy: IfNotPresent
           ports:
-            - name: http
+            - name: http-logger
               containerPort: 3000
           volumeMounts:
             - name: logs-store
