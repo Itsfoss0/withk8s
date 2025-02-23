@@ -33,8 +33,11 @@ spec:
               mountPath: /var/log
 
         - name: logger
-          image: akhonya/logger:v1.2.3
+          image: akhonya/logger:v1.2.4
           imagePullPolicy: IfNotPresent
+          env:
+            - name: "PINGS_URL"
+              value: "http://logger-pong-service:5000/pingpong"
           ports:
             - name: http-logger
               containerPort: 3000
