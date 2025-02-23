@@ -11,7 +11,6 @@ RUN npm install
 
 COPY . /usr/app/
 
-USER appuser 
 
 EXPOSE  3000
 
