@@ -1,8 +1,10 @@
+ARG BACKEND_URL
 FROM node:lts-alpine3.21  AS build
 WORKDIR  /usr/src/app
 COPY ./package.json . 
 RUN npm install 
 COPY . /usr/src/app/
+ENV BACKEND_URL=${BACKEND_URL}
 
 RUN npm run build
 

@@ -1,9 +1,11 @@
+import { createTodo } from '../services/todo.service';
+
 const TodoForm = () => {
-  const handleCreateTodo = (event) => {
+  const handleCreateTodo = async (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
     const payload = Object.fromEntries(data);
-    console.log(payload);
+    await createTodo(payload);
   };
   return (
     <>
