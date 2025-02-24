@@ -4,8 +4,9 @@ WORKDIR  /usr/src/app
 COPY ./package.json . 
 RUN npm install 
 COPY . /usr/src/app/
+ENV VITE_BACKEND_URL=${BACKEND_URL}
 ENV BACKEND_URL=${BACKEND_URL}
-
+RUN echo "VITE_BACKEND_URL=${VITE_BACKEND_URL}" >> .env
 RUN npm run build
 
 # run stage
