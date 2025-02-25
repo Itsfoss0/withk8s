@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todoist-dep
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-app
+
+  template:
+    metadata:
+      labels:
+        app: todo-app
+
+    spec:
+      containers:
+        - name: frontend
+          image: akhonya/dwk-frontend:v1.0.2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: frontend-http
+              containerPort: 3000
+
+        - name: backend
+          image: akhonya/dwk-backend:v1.0.0
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: backend-http
+              containerPort: 4000
+          livenessProbe:
+            httpGet:
+              path: /_/health
+              port: 4000
+            initialDelaySeconds: 90
+            timeoutSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /_/status
+              port: 4000
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
