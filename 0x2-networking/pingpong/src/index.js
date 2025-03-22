@@ -1,26 +1,30 @@
 const PORT = process.env.PORT || 3000;
-const express = require("express");
-const logger = require("morgan");
-const { writeFile } = require("fs/promises");
+const express = require('express');
+const logger = require('morgan');
+const db = require('./db');
+const initializeDB = require('./utils');
 
 const app = express();
+db.connect().then(() => console.log('Connected to Postgres DB'));
+initializeDB(db).then(() => console.log('Initial records injected to DB'));
 
-const savePingPongs = async (fileName, data) => {
+const updateQry = 'UPDATE pings SET count = $1 WHERE id = $2';
+const retrieveQry = 'SELECT * FROM pings';
+
+app.use(logger('dev'));
+app.get('/pingpong', async (req, res) => {
   try {
-    await writeFile(fileName, data);
+    const now = new Date().toISOString();
+    const data = await (await db.query(retrieveQry)).rows[0];
+    const newCount = data.count + 1;
+    await db.query(updateQry, [newCount, data.id]);
+    return res.json({ message: `pong ${data.count}`, time: now });
   } catch (err) {
-    console.error(`Could not save ping/pongs ${err.message}`);
+    console.error(err);
+    return res
+      .status(503)
+      .json({ status: 'error', message: 'Internal server error' });
   }
-};
-
-let request = -1;
-
-app.use(logger("dev"));
-app.get("/pingpong", (req, res) => {
-  const now = new Date().toISOString();
-  request += 1;
-  res.json({ message: `pong ${request}`, time: now });
-  return savePingPongs("/var/log/pingpong.log", `Ping / Pongs: ${request}`);
 });
 
 app.listen(PORT, () => {
