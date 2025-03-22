@@ -8,6 +8,7 @@ import threading
 
 from api import run_server, API
 from interface import DataProvider
+from utils import MESSAGE, read_file_content
 
 secret = str(uuid4())
 logger = getLogger(__name__)
@@ -19,6 +20,8 @@ logger.addHandler(handler)
 
 data_provider = DataProvider(secret)
 api_handler = API(data_source=data_provider)
+
+content = read_file_content("/etc/config/information.txt")
 
 
 def log_secret():
@@ -37,4 +40,6 @@ def main():
 
 
 if __name__ == "__main__":
+    print(f"File content is:  {content}")
+    print(f"Env variable MESSAGE={MESSAGE}")
     main()
