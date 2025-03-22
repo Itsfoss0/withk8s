@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: logger-config
+  namespace: project
+
+data:
+  MESSAGE: The storm is coming
+  information.txt: |
+    We live in a twilight world
+    And there are no friends at dusk
