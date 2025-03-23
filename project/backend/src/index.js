@@ -3,6 +3,9 @@ const cors = require('cors');
 const logger = require('morgan');
 const probesRouter = require('./routes/probes.route');
 const todoRouter = require('./routes/todo.route');
+const db = require('./db');
+
+db.connect().then(() => console.log('Connected to PostgreSQL DB'));
 
 const api = express();
 

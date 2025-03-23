@@ -1,16 +1,17 @@
+const db = require('../db');
 const todoRouter = require('express').Router();
 
-const todoItems = [];
-
-todoRouter.get('/todo', (req, res) => {
+todoRouter.get('/todos', async (req, res) => {
   const timestamp = new Date().toISOString();
+  const todoItems = (await db.query('SELECT * FROM todos')).rows;
   res.json({ todos: todoItems, timestamp });
 });
 
-todoRouter.post('/todo', (req, res) => {
+todoRouter.post('/todos', async (req, res) => {
   try {
+    const qry = 'INSERT INTO todos (title) VALUES ( $1 )';
     const data = req.body.todo;
-    todoItems.push(data);
+    await db.query(qry, [data]);
     return res.status(201).json({ messsage: 'created', todo: data });
   } catch (err) {
     console.log(err);
