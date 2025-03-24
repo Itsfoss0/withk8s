@@ -7,5 +7,5 @@ metadata:
 data:
   PG_HOST: pg-service
   PG_PASSWORD: foss
-  DB_NAME: pingpong
+  DB_NAME: project
   PG_USER: itsfoss

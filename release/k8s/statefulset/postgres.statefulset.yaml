@@ -16,7 +16,7 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres-stset
+  name: database
   namespace: project
 
 spec:
@@ -47,6 +47,12 @@ spec:
                   name: db-configmap
                   key: PG_USER
 
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: db-configmap
+                  key: DB_NAME
+
           ports:
             - containerPort: 5432
           volumeMounts:
@@ -58,7 +64,7 @@ spec:
         name: data-store
       spec:
         accessModes: ["ReadWriteOnce"]
-        storageClassName: local-path
+        storageClassName: standard
         resources:
           requests:
             storage: 200Mi
