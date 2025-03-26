@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: wiki-updates
+spec:
+  schedule: "@hourly"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: wikiupdates
+              image: akhonya/wikirands:v1.0.0
+              imagePullPolicy: IfNotPresent
+              env:
+                - name: API_URL
+                  value: http://todo-app-service:4000/api/v1/todos
+
+          restartPolicy: OnFailure
