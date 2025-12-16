@@ -37,19 +37,19 @@ spec:
           env:
             - name: POSTGRES_PASSWORD
               valueFrom:
-                secretKeyRef:
-                  name: pg-config-secret
+                configMapKeyRef:
+                  name: db-configmap
                   key: PG_PASSWORD
 
             - name: POSTGRES_USER
               valueFrom:
-                secretKeyRef:
-                  name: pg-config-secret
+                configMapKeyRef:
+                  name: db-configmap
                   key: PG_USER
             - name: POSTGRES_DB
               valueFrom:
-                secretKeyRef:
-                  name: pg-config-secret
+                configMapKeyRef:
+                  name: db-configmap
                   key: DB_NAME
 
           ports:

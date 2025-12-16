@@ -25,7 +25,7 @@ spec:
               containerPort: 3000
 
         - name: backend
-          image: akhonya/dwk-backend:v1.2.0
+          image: akhonya/dwk-backend:v1.2.1
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
