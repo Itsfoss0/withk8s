@@ -1,6 +1,7 @@
 const api = require('.');
 const { PORT } = require('./config/secrets.config');
+const pinoLogger = require('./log/log');
 
 api.listen(PORT, () => {
-  console.log(`Server is listening on port ${PORT}`);
+  pinoLogger.info(`Server is listening on port ${PORT}`);
 });

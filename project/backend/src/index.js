@@ -4,8 +4,9 @@ const logger = require('morgan');
 const probesRouter = require('./routes/probes.route');
 const todoRouter = require('./routes/todo.route');
 const db = require('./db');
+const pinoLogger = require('./log/log');
 
-db.connect().then(() => console.log('Connected to PostgreSQL DB'));
+db.connect().then(() => pinoLogger.info('Connected to PostgreSQL DB'));
 
 const api = express();
 
