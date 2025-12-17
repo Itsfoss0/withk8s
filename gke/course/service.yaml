@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: seedimage-svc
 spec:
-  type: LoadBalancer # This should be the only unfamiliar part
+  type: NodePort
   selector:
     app: seedimage
   ports:
