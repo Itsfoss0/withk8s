@@ -6,7 +6,7 @@ metadata:
 data:
   PG_HOST: pg-service
   PG_PASSWORD: foss
-  DB_NAME: project
+  DB_NAME: pingpong
   PG_USER: itsfoss
   init.sql: |
     -- init the database

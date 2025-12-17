@@ -2,7 +2,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: pg-service
-  namespace: project
 
 spec:
   ports:
@@ -16,8 +15,7 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres-stset
-  namespace: project
+  name: database
 
 spec:
   replicas: 1
@@ -30,26 +28,6 @@ spec:
       labels:
         app: postgres
     spec:
-      initContainers:
-        - name: init-db
-          image: postgres:16-alpine3.20
-          imagePullPolicy: IfNotPresent
-          command:
-            - sh
-            - -c
-            - |
-              psql \
-                -h "$POSTGRES_HOST" \
-                -U "$POSTGRES_USER" \
-                -d "$POSTGRES_DB" \
-                -f /sql/init.sql
-          envFrom:
-            - configMapRef:
-                name: db-configmap
-          volumeMounts:
-            - name: db-init
-              mountPath: /sql
-
       containers:
         - name: postgresdb
           image: postgres:16-alpine3.20
@@ -66,6 +44,7 @@ spec:
                 configMapKeyRef:
                   name: db-configmap
                   key: PG_USER
+
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
@@ -75,18 +54,16 @@ spec:
           ports:
             - containerPort: 5432
           volumeMounts:
-            - name: data-store
+            - name: data
               mountPath: /var/lib/postgresql/data
-      volumes:
-        - name: db-init
-          configMap:
-            name: db-configmap
+              subPath: postgres
+
   volumeClaimTemplates:
     - metadata:
-        name: data-store
+        name: data
       spec:
         accessModes: ["ReadWriteOnce"]
         storageClassName: standard
         resources:
           requests:
-            storage: 200Mi
+            storage: 1Gi
