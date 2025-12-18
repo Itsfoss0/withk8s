@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: seedimage-svc
 spec:
-  type: NodePort
+  type: ClusterIP
   selector:
     app: seedimage
   ports:
     - port: 80
       protocol: TCP
-      targetPort: 3000
+      targetPort: 3000  
