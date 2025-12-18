@@ -10,6 +10,15 @@ spec:
         - path:
             type: PathPrefix
             value: /
+      filters:
+        - type: RequestRedirect
+          requestRedirect:
+            path:
+              type: ReplaceFullPath
+              replaceFullPath: /pingpong
+            statusCode: 308 
+
+    - matches:
         - path:
             type: PathPrefix
             value: /pingpong
