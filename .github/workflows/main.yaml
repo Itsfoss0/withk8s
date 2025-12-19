@@ -50,7 +50,7 @@ jobs:
         run: echo "IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 
       - name: Build
-        run: docker build --tag $IMAGE_TAG .
+        run: docker build -f gke/pipeline/Dockerfile --tag $IMAGE_TAG .
 
       - name: Publish
         run: docker push $IMAGE_TAG
