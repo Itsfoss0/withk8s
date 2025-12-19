@@ -22,9 +22,6 @@ jobs:
       - name: "Checkout Code to Runner"
         uses: actions/checkout@v4
 
-      - name: "Change Dir to project"
-        run: "cd gke/pipeline; pwd"
-
       - name: "Authenticate to Google Cloud"
         uses: google-github-actions/auth@v2
         with:
@@ -49,16 +46,18 @@ jobs:
       - name: "Compose the Image name"
         run: echo "IMAGE_TAG=$REGISTRY/$PROJECT_ID/$REPOSITORY/$IMAGE:$BRANCH-$GITHUB_SHA" >> $GITHUB_ENV
 
-      - name: Build
+      - name: Build Container Image
+        working-directory: gke/pipeline
         run: docker build --tag $IMAGE_TAG .
 
-      - name: Publish
+      - name: Publish Image
         run: docker push $IMAGE_TAG
 
       - name: Set up Kustomize
         uses: imranismail/setup-kustomize@v2.1.0
 
       - name: Deploy
+        working-directory: gke/pipeline
         run: |-
           kustomize edit set image PROJECT/IMAGE=$IMAGE_TAG
           kustomize build . | kubectl apply -f -
