@@ -18,6 +18,7 @@ env:
 
 jobs:
   build-publish-deploy:
+    if: github.event.ref_type == 'branch'
     name: build publish and deploy
     runs-on: ubuntu-latest
 
