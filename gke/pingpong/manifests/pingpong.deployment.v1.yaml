@@ -42,7 +42,7 @@ spec:
 
       containers:
         - name: pinpong
-          image: akhonya/pingpong:v1.0.1
+          image: PROJECT/IMAGE
           imagePullPolicy: IfNotPresent
           ports:
             - name: backend-http

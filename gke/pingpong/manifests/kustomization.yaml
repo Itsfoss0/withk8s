@@ -9,3 +9,7 @@ resources:
   - "pingpong.service.yaml"
   - "pingpong.gatway.yaml"
   - "pingpong.route.yaml"
+images:
+  - name: PROJECT/IMAGE
+    newName: akhonya/pingpong
+    newTag: v1.0.1
