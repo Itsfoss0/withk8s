@@ -63,9 +63,14 @@ jobs:
       - name: Deploy
         working-directory: gke/pipeline
         run: |-
-          kubectl create namespace ${GITHUB_REF#refs/heads/} || true
-          kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
-          kustomize edit set namespace ${GITHUB_REF#refs/heads/}
+          NAMESPACE="${GITHUB_REF#refs/heads/}"
+          if [ "$NAMESPACE" = "main" ]; then
+            NAMESPACE="project"
+          fi
+
+          kubectl create namespace "$NAMESPACE" || true
+          kubectl config set-context --current --namespace="$NAMESPACE"
+          kustomize edit set namespace "$NAMESPACE"
           kustomize edit set image PROJECT/IMAGE=$IMAGE_TAG
           kustomize build . | kubectl apply -f -
           kubectl rollout status deployment $SERVICE
