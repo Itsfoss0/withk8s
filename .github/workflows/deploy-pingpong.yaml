@@ -10,7 +10,8 @@ env:
   REGISTRY: europe-north1-docker.pkg.dev
   REPOSITORY: ${{ secrets.REPO_NAME }}
   IMAGE: pingpong
-  SERVICE: pingpong-svc
+  SERVICE: pingpong-dep
+
   BRANCH: ${{ github.ref_name }}
 
 jobs:
