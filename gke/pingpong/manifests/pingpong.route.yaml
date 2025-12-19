@@ -16,7 +16,7 @@ spec:
             path:
               type: ReplaceFullPath
               replaceFullPath: /pingpong
-            statusCode: 308 
+            statusCode: 302 
 
     - matches:
         - path:
