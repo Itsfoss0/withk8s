@@ -1,0 +1,23 @@
+repositories:
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
+  - name: grafana
+    url: https://grafana.github.io/helm-charts
+
+releases:
+  - name: prometheus
+    namespace: monitoring
+    chart: prometheus-community/kube-prometheus-stack
+    version: ~61.0.0
+    values:
+      - values/prometheus-values.yaml
+
+  - name: loki
+    namespace: monitoring
+    chart: grafana/loki-stack
+    version: ~2.10.0
+    installed: true
+    needs:
+      - monitoring/prometheus
+    values:
+      - values/loki-values.yaml

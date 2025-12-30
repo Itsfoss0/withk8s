@@ -1,0 +1,35 @@
+loki:
+  enabled: true
+
+  persistence:
+    enabled: false
+  resources:
+    requests:
+      memory: 256Mi
+      cpu: 100m
+    limits:
+      memory: 512Mi
+      cpu: 200m
+
+  config:
+    limits_config:
+      retention_period: 168h
+      max_query_length: 721h
+
+# Promtail - log collector
+promtail:
+  enabled: true
+
+  resources:
+    requests:
+      memory: 64Mi
+      cpu: 50m
+    limits:
+      memory: 128Mi
+      cpu: 100m
+
+grafana:
+  enabled: false
+
+prometheus:
+  enabled: false
