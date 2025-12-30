@@ -51,6 +51,13 @@ spec:
           envFrom:
             - configMapRef:
                 name: db-configmap
+          resources:
+            requests:
+              memory: "105Mi"
+              cpu: "60m"
+            limits:
+              memory: "150Mi"
+              cpu: "150m"
 
       volumes:
         - name: db-init
