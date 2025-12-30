@@ -1,0 +1,40 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: backup
+spec:
+  template:
+    spec:
+      initContainers:
+        - name: init-pg
+          image: akhonya/pg-backup:v1.0.0
+          imagePullPolicy: IfNotPresent
+          command:
+            [
+              "sh",
+              "-c",
+              "until pg_isready -h pg-service -p 5432; do echo waiting for database; sleep 2; done;",
+            ]
+
+      containers:
+        - name: backup
+          image: jakousa/simple-backup-example
+          env:
+            - name: PG_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: db-configmap
+                  key: PG_USER
+            - name: PG_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: db-configmap
+                  key: PG_PASSWORD
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: db-configmap
+                  key: DB_NAME
+            - name: URL
+              value: "postgres://$(PG_USER):$(PG_PASSWORD)@pg-service:5432/$(DB_NAME)"
+      restartPolicy: Never
