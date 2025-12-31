@@ -27,11 +27,28 @@ app.get('/pingpong', async (req, res) => {
   }
 });
 
-
 app.get('/', (req, res) => {
-  return res.json({message: "application is running ok"})
-})
+  return res.json({ message: 'application is running ok' });
+});
 
+app.get('/health', async (req, res) => {
+  try {
+    await db.query('SELECT 1');
+    return res.status(200).json({
+      status: 'healthy',
+      database: 'connected',
+      timestamp: new Date().toISOString()
+    });
+  } catch (err) {
+    console.error('Health check failed:', err);
+    return res.status(503).json({
+      status: 'unhealthy',
+      database: 'disconnected',
+      error: err.message,
+      timestamp: new Date().toISOString()
+    });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);

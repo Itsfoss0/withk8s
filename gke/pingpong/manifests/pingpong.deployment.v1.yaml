@@ -44,6 +44,14 @@ spec:
         - name: pinpong
           image: PROJECT/IMAGE
           imagePullPolicy: IfNotPresent
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
+            periodSeconds: 10
+
           ports:
             - name: backend-http
               containerPort: 3000
