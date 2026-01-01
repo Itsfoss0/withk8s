@@ -2,8 +2,11 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: project-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
 
 spec:
+  ingressClassName: gce
   rules:
     - http:
         paths:
@@ -13,11 +16,11 @@ spec:
               service:
                 name: todo-app-service
                 port:
-                  number: 4000
+                  number: 81
           - path: /
             pathType: Prefix
             backend:
               service:
                 name: todo-app-service
                 port:
-                  number: 3000
+                  number: 80

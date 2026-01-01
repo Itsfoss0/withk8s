@@ -4,14 +4,14 @@ metadata:
   name: todo-app-service
 
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: todo-app
   ports:
     - name: frontend
-      port: 3000
+      port: 80
       targetPort: 3000
 
     - name: backend
-      port: 4000
-      targetPort: 3000
+      port: 81
+      targetPort: 4000

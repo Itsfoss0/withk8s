@@ -5,7 +5,8 @@ kind: Kustomization
 resources:
   - "config/potsgres.configmap.yaml"
   - "deployment/project.v1.deployment.yaml"
-  - "ingress/project.v1.ingress.yaml"
+  - "gateway/project.gateway.yaml"
+  - "gateway/project.route.yaml"
   - "services/project.v1.service.yaml"
   - "statefulsets/postgres.statefulset.yaml"
   - "storage/pvc.yaml"

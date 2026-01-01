@@ -44,14 +44,14 @@ spec:
 
       containers:
         - name: frontend
-          image: akhonya/dwk-frontend:v1.0.2
+          image: akhonya/dwk-frontend:v1.0.4
           imagePullPolicy: IfNotPresent
           ports:
             - name: frontend-http
               containerPort: 3000
 
         - name: backend
-          image: akhonya/dwk-backend:v1.2.1
+          image: akhonya/dwk-backend:v1.2.2
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
