@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "http://todo-app-service:4000/api/v1/todo";
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || '/api/v1/todos';
 
 export const getTodos = async () => {
   console.log(`Vite backend URL is ${BACKEND_URL}`);
