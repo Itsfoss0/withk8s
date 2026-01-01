@@ -2,10 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: todoist-dep
-  namespace: project
 
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: todo-app
@@ -16,6 +15,33 @@ spec:
         app: todo-app
 
     spec:
+      initContainers:
+        - name: init-db
+          image: postgres:16-alpine3.20
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              export PGPASSWORD="$PG_PASSWORD"
+              echo "Waiting for Postgres..."
+              until pg_isready -h "$PG_HOST" -p 5432 -U "$PG_USER"; do
+                sleep 2
+              done
+
+              echo "Running init.sql..."
+              psql \
+                -h "$PG_HOST" \
+                -U "$PG_USER" \
+                -d "$DB_NAME" \
+                -f /sql/init.sql
+          envFrom:
+            - configMapRef:
+                name: db-configmap
+          volumeMounts:
+            - name: db-init
+              mountPath: /sql
+
       containers:
         - name: frontend
           image: akhonya/dwk-frontend:v1.0.2
@@ -45,3 +71,7 @@ spec:
               port: 4000
             initialDelaySeconds: 30
             timeoutSeconds: 10
+      volumes:
+        - name: db-init
+          configMap:
+            name: db-configmap

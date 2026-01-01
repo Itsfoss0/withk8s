@@ -4,20 +4,10 @@ metadata:
   name: project-pv
 
 spec:
-  storageClassName: standard
+  storageClassName: standard-rwo
   capacity:
     storage: 620Mi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
-  local:
-    path: /tmp/kube
 
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-                - k3d-prod-agent-1

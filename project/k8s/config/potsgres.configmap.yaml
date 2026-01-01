@@ -6,14 +6,14 @@ metadata:
 data:
   PG_HOST: pg-service
   PG_PASSWORD: foss
-  DB_NAME: project
+  DB_NAME: todos
   PG_USER: itsfoss
   init.sql: |
     -- init the database
-    \c pingpong;
+    \c todos;
 
-    CREATE TABLE IF NOT EXISTS pings (
+    CREATE TABLE IF NOT EXISTS todos (
       id SERIAL PRIMARY KEY,
       createdat TIMESTAMP NOT NULL DEFAULT NOW(),
-      count INTEGER NOT NULL
+      title VARCHAR(256) NOT NULL
     );

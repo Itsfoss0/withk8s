@@ -1,0 +1,11 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - "config/potsgres.configmap.yaml"
+  - "deployment/project.v1.deployment.yaml"
+  - "ingress/project.v1.ingress.yaml"
+  - "services/project.v1.service.yaml"
+  - "statefulsets/postgres.statefulset.yaml"
+  - "storage/pvc.yaml"
