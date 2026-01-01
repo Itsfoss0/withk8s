@@ -17,6 +17,10 @@ api.use(logger('common'));
 api.use('/api/v1/', todoRouter);
 api.use('/_', probesRouter);
 
+api.use('/', (req, res) => {
+  return res.json({ message: 'application is working ok' });
+});
+
 api.use((req, res) => {
   return res.status(404).json({ error: 'not found' });
 });
