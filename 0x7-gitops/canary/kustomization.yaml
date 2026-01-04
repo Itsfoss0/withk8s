@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - "rollout.yaml"
+  - "analysistemplate.yaml"
 images:
   - name: PROJECT/IMAGE
     newName: mluukkai/dwk-app8

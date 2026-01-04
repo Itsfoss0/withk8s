@@ -10,15 +10,15 @@ spec:
   strategy:
     canary:
       steps:
-      - setWeight: 25
-      - analysis:
-          templates:
-          - templateName: restart-rate
-      - pause:
-          duration: 30s
-      - setWeight: 50
-      - pause:
-          duration: 30s
+        - setWeight: 25
+        - analysis:
+            templates:
+              - templateName: restart-rate
+        - pause:
+            duration: 30s
+        - setWeight: 50
+        - pause:
+            duration: 30s
   template:
     metadata:
       labels:
@@ -27,29 +27,30 @@ spec:
       containers:
         - name: flaky-update
           image: PROJECT/IMAGE
+          imagePullPolicy: IfNotPresent
           readinessProbe:
             initialDelaySeconds: 10 # Initial delay until the readiness is tested
             periodSeconds: 5 # How often to test
             httpGet:
-               path: /healthz
-               port: 3541
+              path: /healthz
+              port: 3541
           livenessProbe:
             initialDelaySeconds: 20 # Initial delay until the liveness is tested
             periodSeconds: 5 # How often to test
             httpGet:
-               path: /healthz
-               port: 3541
+              path: /healthz
+              port: 3541
 
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name:  flaky-svc
+  name: flaky-svc
 spec:
   selector:
     app: flaky-update
-  type:  LoadBalancer
+  type: LoadBalancer
   ports:
-  - name:  http-traffic
-    port:  80
-    targetPort:  3541
+    - name: http-traffic
+      port: 80
+      targetPort: 3541
