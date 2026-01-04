@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaky-update-dep
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: flaky-update
+  template:
+    metadata:
+      labels:
+        app: flaky-update
+    spec:
+      containers:
+        - name: flaky-update
+          imagePullPolicy: IfNotPresent
+          image: PROJECT/IMAGE
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+              port: 3541
+              path: /healthz
+          livenessProbe:
+            initialDelaySeconds: 25
+            periodSeconds: 5
+            httpGet:
+              port: 3541
+              path: /healthz
+          resources:
+            requests:
+              cpu: "10m"
+              memory: "50Mi"
+            limits:
+              cpu: "15m"
+              memory: "60Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaky-update-svc
+spec:
+  selector:
+    app: flaky-update
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3541
+  type: LoadBalancer
