@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: pingpong-dep
 
@@ -8,6 +8,18 @@ spec:
   selector:
     matchLabels:
       app: pingpong
+  strategy:
+    canary:
+      steps:
+        - setWeight: 25
+        - analysis:
+            templates:
+              - templateName: pingpong-restart-rate
+        - pause:
+            duration: 50s
+        - setWeight: 50
+        - pause:
+            duration: 50s
   template:
     metadata:
       labels:
