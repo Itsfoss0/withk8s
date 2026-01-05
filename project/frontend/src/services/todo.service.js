@@ -8,7 +8,7 @@ export const getTodos = async () => {
   console.log(`Vite backend URL is ${BACKEND_URL}`);
   try {
     const response = await axios.get(BACKEND_URL);
-    if (response.status === 200) {
+    if (response.status === 200 || response.status === 304) {
       return response.data;
     }
     return new Promise((resolve, reject) => {
@@ -28,5 +28,16 @@ export const createTodo = async (payload) => {
     }
   } catch (error) {
     console.error(error.message);
+  }
+};
+
+export const markAsDone = async (taskId) => {
+  try {
+    const response = await axios.put(`${BACKEND_URL}/${taskId}`);
+    if (response.status === 200) {
+      return response.data;
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
