@@ -1,3 +1,7 @@
+const {
+  publishTodoEvents
+} = require('../broker/publishers/todopublisher.publisher');
+const { TODO_CREATED, TODO_UPDATED } = require('../broker/subjects.broker');
 const db = require('../db');
 const pinoLogger = require('../log/log');
 const todoRouter = require('express').Router();
@@ -10,7 +14,7 @@ todoRouter.get('/todos', async (req, res) => {
 
 todoRouter.post('/todos', async (req, res) => {
   try {
-    const qry = 'INSERT INTO todos (title) VALUES ( $1 )';
+    const qry = 'INSERT INTO todos (title) VALUES ( $1 ) RETURNING *';
     const data = req.body.todo;
     if (Number(data.length) > 140) {
       pinoLogger.error('error adding todo item');
@@ -18,9 +22,10 @@ todoRouter.post('/todos', async (req, res) => {
         .status(400)
         .json({ error: 'todo length should be 140 characters or less' });
     }
-    await db.query(qry, [data]);
-    pinoLogger.info('todo item created');
-    return res.status(201).json({ messsage: 'created', todo: data });
+    const result = await db.query(qry, [data]);
+    publishTodoEvents(result.rows[0], TODO_CREATED);
+    pinoLogger.info(` item '${(result.rows[0].title)}' created`);
+    return res.status(201).json({ messsage: 'created', todo: result.rows[0] });
   } catch (err) {
     console.log(err);
   }
@@ -35,6 +40,8 @@ todoRouter.put('/todos/:id', async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'item not found' });
     }
+
+    publishTodoEvents(result.rows[0], TODO_UPDATED);
 
     return res.status(200).json(result.rows[0]);
   } catch (err) {
