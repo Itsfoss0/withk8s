@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - "config/potsgres.configmap.yaml"
   - "deployment/project.v1.deployment.yaml"
+  - "deployment/broadcaster.deployment.yaml"
   - "gateway/project.gateway.yaml"
   - "gateway/project.route.yaml"
   - "services/project.v1.service.yaml"

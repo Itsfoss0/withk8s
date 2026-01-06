@@ -44,18 +44,21 @@ spec:
 
       containers:
         - name: frontend
-          image: akhonya/dwk-frontend:v1.0.4
+          image: akhonya/dwk-frontend:v1.0.5
           imagePullPolicy: IfNotPresent
           ports:
             - name: frontend-http
               containerPort: 3000
 
         - name: backend
-          image: akhonya/dwk-backend:v1.2.2
+          image: akhonya/dwk-backend:v1.2.3
           imagePullPolicy: IfNotPresent
           envFrom:
             - configMapRef:
                 name: db-configmap
+          env:
+            - name: NATS_SERVER_URL
+              value: nats://my-nats:4222
           ports:
             - name: backend-http
               containerPort: 4000
