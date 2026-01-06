@@ -1,7 +1,7 @@
 const { connect } = require('nats');
+const { setNatsClient } = require('../client/natclient.client');
 const { NATS_SERVER_URL } = require('../config/secrets.config');
-const pinoLogger = require('../log/log');
-const { setNatsClient } = require('./natclient.broker');
+const pinoLogger = require('../logging/pino.logging');
 
 const connectToBroker = async () => {
   try {

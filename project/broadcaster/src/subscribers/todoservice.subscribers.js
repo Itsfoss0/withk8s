@@ -1,7 +1,11 @@
+const { getNatsClient } = require('../client/natclient.client');
 const { StringCodec } = require('nats');
-const { getNatsClient } = require('../broker/natclient.broker');
-const { TODO_CREATED, TODO_UPDATED } = require('../broker/subjects.broker');
-const { sendTelegramMessage } = require('../utils/telegram.utils');
+const {
+  TODO_CREATED,
+  TODO_UPDATED
+} = require('../subjects/todoservice.subjects');
+const { sendTelegramMessage } = require('../services/telegramMessages.service');
+const pinoLogger = require('../logging/pino.logging');
 
 const sc = StringCodec();
 
@@ -12,10 +16,8 @@ const subscribeTodoCreated = async () => {
   (async () => {
     for await (const msg of sub) {
       const data = sc.decode(msg.data);
-      console.log(`[todo.created #${sub.getProcessed()}]`, data);
-      sendTelegramMessage(
-        `New task item has been added\n  \n${data}\n`
-      );
+      pinoLogger.info(`[todo.created #${sub.getProcessed()}]`);
+      sendTelegramMessage(`New task item has been added\n  \n${data}\n`);
     }
   })();
 };
@@ -27,10 +29,8 @@ const subscribeTodoUpdated = async () => {
   (async () => {
     for await (const msg of sub) {
       const data = sc.decode(msg.data);
-      console.log(`[todo.updated #${sub.getProcessed()}]`, data);
-      sendTelegramMessage(
-        `Task item has been marked as done\n \n${data}\n`
-      );
+      pinoLogger.info(`[todo.updated #${sub.getProcessed()}]`);
+      sendTelegramMessage(`Task item has been marked as done\n \n${data}\n`);
     }
   })();
 };
