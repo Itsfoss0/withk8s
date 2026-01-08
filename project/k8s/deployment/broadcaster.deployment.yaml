@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: broadcaster
-          image: akhonya/broadcaster:v1.0.0
+          image: PROJECT/BROADCASTER
           imagePullPolicy: IfNotPresent
           envFrom: 
             - secretRef:

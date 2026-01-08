@@ -11,3 +11,16 @@ resources:
   - "services/project.v1.service.yaml"
   - "statefulsets/postgres.statefulset.yaml"
   - "storage/pvc.yaml"
+
+images:
+  - name: PROJECT/FRONTEND
+    newName: akhonya/dwk-frontend
+    newTag: v1.0.5
+
+  - name: PROJECT/BACKEND
+    newName: akhonya/dwk-backend
+    newTag: v1.2.3
+
+  - name: PROJECT/BROADCASTER
+    newName: akhonya/broadcaster
+    newTag: v1.0.0
