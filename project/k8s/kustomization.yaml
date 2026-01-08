@@ -1,26 +1,25 @@
----
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - "config/potsgres.configmap.yaml"
-  - "deployment/project.v1.deployment.yaml"
-  - "deployment/broadcaster.deployment.yaml"
-  - "gateway/project.gateway.yaml"
-  - "gateway/project.route.yaml"
-  - "services/project.v1.service.yaml"
-  - "statefulsets/postgres.statefulset.yaml"
-  - "storage/pvc.yaml"
+- config/potsgres.configmap.yaml
+- deployment/project.v1.deployment.yaml
+- deployment/broadcaster.deployment.yaml
+- gateway/project.gateway.yaml
+- gateway/project.route.yaml
+- services/project.v1.service.yaml
+- statefulsets/postgres.statefulset.yaml
+- storage/pvc.yaml
+
+
 
 images:
-  - name: PROJECT/FRONTEND
-    newName: akhonya/dwk-frontend
-    newTag: v1.0.5
-
-  - name: PROJECT/BACKEND
-    newName: akhonya/dwk-backend
-    newTag: v1.2.3
-
-  - name: PROJECT/BROADCASTER
-    newName: akhonya/broadcaster
-    newTag: v1.0.0
+- name: PROJECT/BACKEND
+  newName: akhonya/dwk-backend
+  newTag: da014d5e4b6d08076ff33d79b995925a8cf6a87f
+- name: PROJECT/BROADCASTER
+  newName: akhonya/broadcaster
+  newTag: da014d5e4b6d08076ff33d79b995925a8cf6a87f
+- name: PROJECT/FRONTEND
+  newName: akhonya/dwk-frontend
+  newTag: da014d5e4b6d08076ff33d79b995925a8cf6a87f
