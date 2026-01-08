@@ -12,9 +12,9 @@ helm repo add stable https://charts.helm.sh/stable
 helm repo update
 
 kubectl create namespace prometheus
-helm install prometheus-community/kube-prometheus-stack kube-prometheus-stack --namespace prometheus
+helm install kube-prometheus-stack prometheus-community/kube-prometheus-stack  --namespace prometheus
 helm upgrade kube-prometheus-stack prometheus-community/kube-prometheus-stack \
 	-n prometheus \
 	--set admissionWebhooks.enabled=false
 
-k port-forward -n prometheus prometheus-kube-prometheus-stack-1767-prometheus-0 9090
+# kubectl port-forward -n prometheus prometheus-kube-prometheus-stack-1767-prometheus-0 9090
