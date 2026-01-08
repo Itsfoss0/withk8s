@@ -20,4 +20,4 @@ def write_to_file(filename: str, content) -> None:
 if __name__ == "__main__":
     while True:
         write_to_file("/var/log/dwk.log", generate_secret())
-        sleep(5)
+        sleep(4)
