@@ -36,7 +36,7 @@ jobs:
       - name: Build and Publish 'writter' image
         working-directory: 0x3-logger/writter
         run: |-
-          docker build --tag "akhonya/reader:$GITHUB_SHA" .
+          docker build --tag "akhonya/writter:$GITHUB_SHA" .
           docker push "akhonya/writter:$GITHUB_SHA"
 
       - name: Set up Kustomize
