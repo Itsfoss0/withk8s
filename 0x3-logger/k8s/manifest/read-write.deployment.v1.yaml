@@ -16,14 +16,14 @@ spec:
     spec:
       containers:
         - name: writter
-          image: akhonya/writter:v1
+          image: PROJECT/WRITTER
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: logs
               mountPath: /var/log/
 
         - name: reader
-          image: akhonya/reader:v1
+          image: PROJECT/READER
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: logs
