@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - ".github/workflows/**"
-      - "0x3-logger/**"
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
