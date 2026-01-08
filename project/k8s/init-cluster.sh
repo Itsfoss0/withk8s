@@ -3,6 +3,7 @@
 # setup a GKE cluster and install all dependencies
 # for deploying our applications
 
+
 if ! command -v kubectl; then
 	echo "kubectl is not installed. Please install it first"
 	exit 1
