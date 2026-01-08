@@ -1,0 +1,15 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - "../../base"
+patches:
+  - path: "deployment.yaml"
+
+namePrefix: prod-
+
+images:
+  - name: PROJECT/IMAGE
+    newName: nginx
+    newTag: 1.25-bookworm
