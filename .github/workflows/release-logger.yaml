@@ -1,0 +1,56 @@
+name: Build and publish application
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/**"
+      - "0x3-logger/**"
+
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  DOCKER_PAT: ${{ secrets.DOCKERHUB_TOKEN }}
+
+jobs:
+  build-publish:
+    if: github.event.ref_type == 'branch'
+    name: Build, Push, Release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: "${{ env.DOCKER_USERNAME}}"
+          password: "${{ secrets.DOCKER_PAT }}"
+
+      - name: Build and Publish 'reader' image
+        working-directory: 0x3-logger/reader
+        run: |-
+          docker build --tag "akhonya/reader:$GITHUB_SHA" .
+          docker push "akhonya/reader:$GITHUB_SHA"
+
+      - name: Build and Publish 'writter' image
+        working-directory: 0x3-logger/writter
+        run: |-
+          docker build --tag "akhonya/reader:$GITHUB_SHA" .
+          docker push "akhonya/writter:$GITHUB_SHA"
+
+      - name: Set up Kustomize
+        uses: imranismail/setup-kustomize@v2
+
+      - name: Use right image
+        working-directory: "0x3-logger/k8s"
+        run: |
+          kustomize edit set image PROJECT/READER=akhonya/reader:$GITHUB_SHA
+          kustomize edit set image PROJECT/WRITTER=akhonya/writter:$GITHUB_SHA
+
+      - name: commit kustomization.yaml to GitHub
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: "0x3-logger/k8s/kustomization.yaml"
+          message: "[chore]: release new version of app - ${{ github.sha }}"
