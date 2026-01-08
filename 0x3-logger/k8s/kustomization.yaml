@@ -8,7 +8,7 @@ resources:
 images:
 - name: PROJECT/READER
   newName: akhonya/reader
-  newTag: v1
+  newTag: dad3c55d572803e4ad5cb7f22ea9ee5939ab7fbb
 - name: PROJECT/WRITTER
   newName: akhonya/writter
-  newTag: v1
+  newTag: dad3c55d572803e4ad5cb7f22ea9ee5939ab7fbb
