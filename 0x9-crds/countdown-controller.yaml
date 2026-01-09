@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: countdown-crd-controller
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cdown-ctrl
+  template:
+    metadata:
+      labels:
+        app: cdown-ctrl
+    spec:
+      serviceAccountName: countdown-controller-account
+      containers:
+        - name: controller
+          image: jakousa/dwk-app10-controller:sha-4256579
+          imagePullPolicy: IfNotPresent

@@ -1,0 +1,8 @@
+apiVersion: stable.dwk/v1
+kind: CountDown
+metadata:
+  name: doomsday-countdown
+spec:
+  image: jakousa/dwk-app10:sha-84d581d
+  length: 20
+  delay: 1200
