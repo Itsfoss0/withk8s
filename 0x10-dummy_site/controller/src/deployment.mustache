@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{{ deployment_name }}}
+  labels:
+    dummysite: "{{{ dummysite_name }}}"
+  annotations:
+    website: "{{{ website_url }}}"
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "{{{ dummysite_name }}}"
+  template:
+    metadata:
+      labels:
+        app: "{{{ dummysite_name }}}"
+      annotations:
+        website: "{{{ website_url }}}"
+    spec:
+      volumes:
+        - name: site-data
+          emptyDir: {}
+      initContainers:
+        - name: fetch-site
+          image: curlimages/curl:8.5.0
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |
+              echo "Fetching site {{{ website_url }}}"
+              curl -L "{{{ website_url }}}" -o /site/index.html
+          volumeMounts:
+            - name: site-data
+              mountPath: /site
+
+      containers:
+        - name: "{{{ dummysite_name }}}"
+          image: nginx:alpine
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: site-data
+              mountPath: /usr/share/nginx/html
