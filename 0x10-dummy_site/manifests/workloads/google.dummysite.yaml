@@ -1,0 +1,8 @@
+apiVersion: dummysites.dwk.io/v1
+kind: DummySite
+metadata:
+  name: google-dummysite
+
+spec:
+  website_url: https://google.com
+  image: thisone
